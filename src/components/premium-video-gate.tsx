@@ -15,7 +15,9 @@ export function PremiumVideoGate({ children, fallback }: PremiumVideoGateProps) 
     return <div className="w-full py-20 text-center text-muted-foreground">Načítavam…</div>;
   }
 
-  const hasPremiumAccess = Boolean(customer?.features?.premium_videos?.enabled);
+  // Replace incorrect enabled flag check with balance/unlimited logic
+  const fv = customer?.features?.premium_videos;
+  const hasPremiumAccess = Boolean(fv && (fv.unlimited || (fv.balance ?? 0) > 0));
 
   if (hasPremiumAccess) {
     return <>{children}</>;
